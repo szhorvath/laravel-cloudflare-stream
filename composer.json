@@ -1,17 +1,17 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "szhorvath/laravel-cloudflare-stream",
+    "description": "This is my package laravel-cloudflare-stream",
     "keywords": [
-        ":vendor_name",
+        "szhorvath",
         "laravel",
-        ":package_slug"
+        "laravel-cloudflare-stream"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/szhorvath/laravel-cloudflare-stream",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Sandor Horvath",
+            "email": "z.sandor.horvath@gmail.com",
             "role": "Developer"
         }
     ],
@@ -35,19 +35,19 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Szhorvath\\LaravelCloudflareStream\\": "src/",
+            "Szhorvath\\LaravelCloudflareStream\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
+            "Szhorvath\\LaravelCloudflareStream\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
     "scripts": {
         "post-autoload-dump": "@composer run prepare",
-        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "clear": "@php vendor/bin/testbench package:purge-laravel-cloudflare-stream --ansi",
         "prepare": "@php vendor/bin/testbench package:discover --ansi",
         "build": [
             "@composer run prepare",
@@ -73,10 +73,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Szhorvath\\LaravelCloudflareStream\\LaravelCloudflareStreamServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "LaravelCloudflareStream": "Szhorvath\\LaravelCloudflareStream\\Facades\\LaravelCloudflareStream"
             }
         }
     },

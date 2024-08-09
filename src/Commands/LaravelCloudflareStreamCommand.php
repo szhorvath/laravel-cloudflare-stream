@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Szhorvath\LaravelCloudflareStream\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LaravelCloudflareStreamCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-cloudflare-stream';
 
     public $description = 'My command';
 
