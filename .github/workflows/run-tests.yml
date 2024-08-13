@@ -37,7 +37,7 @@ jobs:
           MYSQL_USER: user
           MYSQL_PASSWORD: secret
           MYSQL_DATABASE: laravel_cf_stream
-          MYSQL_ROOT_PASSWORD: rootsecret
+          MYSQL_ROOT_PASSWORD: secretroot
         ports:
           - 3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -47,7 +47,7 @@ jobs:
         run: |
           mysql --version
           sudo apt-get install -y mysql-client
-          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports[3006] }} --user=user --password=secret --execute="SHOW DATABASES;"
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} --user=user --password=secret --execute="SHOW DATABASES;"
 
       - name: Checkout code
         uses: actions/checkout@v4
