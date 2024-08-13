@@ -18,8 +18,8 @@ class LaravelCloudflareStreamServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-cloudflare-stream')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_laravel_cloudflare_stream_table')
-            ->hasCommand(LaravelCloudflareStreamCommand::class);
+            // ->hasViews()
+            ->hasMigration('create_webhook_calls_table');
+        // ->hasCommand(LaravelCloudflareStreamCommand::class);
     }
 }

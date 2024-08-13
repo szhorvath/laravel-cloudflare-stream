@@ -17,7 +17,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [ubuntu-latest, windows-latest]
-        php: [8.3, 8.2]
+        php: [8.3, 8.2, 8.1]
         laravel: [11.*, 10.*]
         stability: [prefer-lowest, prefer-stable]
         include:
@@ -30,7 +30,25 @@ jobs:
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_USER: user
+          MYSQL_PASSWORD: secret
+          MYSQL_DATABASE: laravel_cf_stream
+          MYSQL_ROOT_PASSWORD: rootsecret
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
+      - name: Verify MySQL is running
+        run: |
+          mysql --version
+          sudo apt-get install -y mysql-client
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3006'] }} --user=user --password=secret --execute="SHOW DATABASES;"
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -56,3 +74,7 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/pest --ci
+        env:
+          DB_USERNAME: user
+          DB_PASSWORD: secret
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
