@@ -47,7 +47,7 @@ jobs:
         run: |
           mysql --version
           sudo apt-get install -y mysql-client
-          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3006'] }} --user=user --password=secret --execute="SHOW DATABASES;"
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports[3006] }} --user=user --password=secret --execute="SHOW DATABASES;"
 
       - name: Checkout code
         uses: actions/checkout@v4
