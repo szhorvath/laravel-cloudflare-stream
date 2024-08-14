@@ -1,0 +1,36 @@
+{
+    "uid": "a0587f7fe8e9bc851c75183831a2eb3c",
+    "meta": { "name": "rupert-test-b869 14 Aug 24 14:34 UTC" },
+    "size": 0,
+    "input": { "width": 1280, "height": 720 },
+    "status": {
+        "state": "ready",
+        "pctComplete": "100.000000",
+        "errorReasonCode": null,
+        "errorReasonText": null
+    },
+    "created": "2024-08-14T14:34:51.294025Z",
+    "creator": null,
+    "preview": "https://customer-6xsmv6axkdji7uup.cloudflarestream.com/a0587f7fe8e9bc851c75183831a2eb3c/watch",
+    "duration": 25,
+    "modified": "2024-08-14T14:35:39.112868Z",
+    "playback": {
+        "hls": "https://customer-6xsmv6axkdji7uup.cloudflarestream.com/a0587f7fe8e9bc851c75183831a2eb3c/manifest/video.m3u8",
+        "dash": "https://customer-6xsmv6axkdji7uup.cloudflarestream.com/a0587f7fe8e9bc851c75183831a2eb3c/manifest/video.mpd"
+    },
+    "uploaded": "2024-08-14T14:34:51.294018Z",
+    "liveInput": "aed55c2824e57b715d1254c2e7f47edd",
+    "thumbnail": "https://customer-6xsmv6axkdji7uup.cloudflarestream.com/a0587f7fe8e9bc851c75183831a2eb3c/thumbnails/thumbnail.jpg",
+    "watermark": null,
+    "clippedFrom": null,
+    "maxSizeBytes": null,
+    "uploadExpiry": null,
+    "publicDetails": null,
+    "readyToStream": true,
+    "allowedOrigins": [],
+    "readyToStreamAt": "2024-08-14T14:35:39.11435Z",
+    "requireSignedURLs": false,
+    "scheduledDeletion": "2024-09-13T14:35:00Z",
+    "maxDurationSeconds": null,
+    "thumbnailTimestampPct": 0
+}
