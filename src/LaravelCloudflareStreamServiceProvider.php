@@ -4,6 +4,7 @@ namespace Szhorvath\LaravelCloudflareStream;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Szhorvath\CloudflareStream\StreamSdk;
 use Szhorvath\LaravelCloudflareStream\Commands\LaravelCloudflareStreamCommand;
 
 class LaravelCloudflareStreamServiceProvider extends PackageServiceProvider
@@ -22,5 +23,15 @@ class LaravelCloudflareStreamServiceProvider extends PackageServiceProvider
             // ->hasViews()
             ->hasMigration('create_webhook_calls_table');
         // ->hasCommand(LaravelCloudflareStreamCommand::class);
+    }
+
+    public function packageRegistered()
+    {
+        $this->app->bind('cf-stream', function () {
+            return new StreamSdk(
+                token: config('cloudflare-stream.api_token'),
+                baseUrl: config('cloudflare-stream.base_url'),
+            );
+        });
     }
 }
