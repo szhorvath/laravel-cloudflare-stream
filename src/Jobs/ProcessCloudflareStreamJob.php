@@ -9,6 +9,6 @@ class ProcessCloudflareStreamJob extends ProcessWebhookJob implements ShouldQueu
 {
     public function handle(): void
     {
-        ray($this->webhookCall);
+        // ray($this->webhookCall);
     }
 }

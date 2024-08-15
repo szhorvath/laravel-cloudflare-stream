@@ -6,31 +6,39 @@ use function Pest\Laravel\postJson;
 
 beforeEach(function () {
     config()->set('webhook-client.configs.0.signing_secret', 'a40a54471c07a225fc19ae4803d2e9a69aefac48');
+
+    $this->headers = [
+        'Host' => 'example.com',
+        'User-Agent' => 'Cloudflare Stream Webhook',
+        'Content-Length' => '1220',
+        'Content-Type' => 'application/json',
+        'webhook-signature' => 'time=1723646181,sig1=7fd16f1875290867a1d1835a94ec44bdae91c5a19627b4eb3001f407593b3afb',
+        'webhook-signature-verification-instructions' => 'https://developers.cloudflare.com/stream/',
+        'Accept-Encoding' => 'gzip',
+        'upgrade-insecure-requests' => '1',
+    ];
 });
 
-it('should return 200', function () {
-    $response = postJson(
-        uri: '/webhook-cloudflare-stream',
+it('should return success', function () {
+    postJson(
+        uri: '/webhooks/cloudflare-stream',
         data: json_decode(
             json: fixture('webhook/stopped'),
             associative: true,
             flags: JSON_THROW_ON_ERROR,
         ),
-        headers: [
-            'Host' => 'host.docker.internal:7000',
-            'User-Agent' => 'Cloudflare Stream Webhook',
-            'Content-Length' => '1220',
-            'Content-Type' => 'application/json',
-            'webhook-signature' => 'time=1723646181,sig1=e2e3f20d0d4498270367caa4b7fdcf22db0ed1ec6d8be7e1add72c2c3241c04d',
-            'webhook-signature-verification-instructions' => 'https://developers.cloudflare.com/stream/',
-            'Accept-Encoding' => 'gzip',
-            'x-forwarded-proto' => 'http',
-            'x-expose-request-id' => '66bcc0e592e17',
-            'upgrade-insecure-requests' => '1',
-            'x-exposed-by' => 'Expose 2.4.0',
-            'x-original-host' => 'yovdqwtdi0.laravel-sail.site:8080',
-            'x-forwarded-host' => 'yovdqwtdi0.laravel-sail.site:8080',
-        ]);
+        headers: $this->headers
+    )
+        ->assertOk()
+        ->assertExactJson(['message' => 'ok']);
+});
 
-    $response->assertOk();
+it('should fail signature check when request body is altered', function () {
+    postJson(
+        uri: '/webhooks/cloudflare-stream',
+        data: ['body' => 'tempered with'],
+        headers: $this->headers
+    )
+        ->assertStatus(500)
+        ->assertExactJson(['message' => 'Server Error']);
 });
