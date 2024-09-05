@@ -29,8 +29,6 @@ class TestCase extends Orchestra
 
     public function getEnvironmentSetUp($app)
     {
-        config()->set('webhook-client', require __DIR__.'/../config/webhook-client.php');
-
         Schema::dropAllTables();
 
         $migration = include __DIR__.'/../database/migrations/create_webhook_calls_table.php.stub';

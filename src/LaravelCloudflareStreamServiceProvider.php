@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Szhorvath\LaravelCloudflareStream;
 
+use Illuminate\Support\Collection;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Szhorvath\CloudflareStream\StreamSdk;
@@ -18,14 +21,14 @@ class LaravelCloudflareStreamServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-cloudflare-stream')
-            ->hasConfigFile(['cloudflare-stream', 'webhook-client'])
+            ->hasConfigFile(['cloudflare-stream'])
             ->hasRoute('stream')
             // ->hasViews()
             ->hasMigration('create_webhook_calls_table');
         // ->hasCommand(LaravelCloudflareStreamCommand::class);
     }
 
-    public function packageRegistered()
+    public function packageRegistered(): void
     {
         $this->app->bind('cf-stream', function () {
             return new StreamSdk(
@@ -33,5 +36,13 @@ class LaravelCloudflareStreamServiceProvider extends PackageServiceProvider
                 baseUrl: config('cloudflare-stream.base_url'),
             );
         });
+
+        // merge webhook-client config with cloudflare-stream webhook config
+        // and remove default config when it is not filled by the developer
+        $webhookConfigs = (new Collection(config('webhook-client.configs', [])))
+            ->reject(fn (array $config) => $config['name'] === 'default' && ! $config['process_webhook_job'])
+            ->push(config('cloudflare-stream.webhook', []));
+
+        config(['webhook-client.configs' => $webhookConfigs->toArray()]);
     }
 }

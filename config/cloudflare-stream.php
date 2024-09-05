@@ -33,16 +33,20 @@ return [
          */
         'enabled' => env('CLOUDFLARE_STREAM_WEBHOOK_ENABLED', true),
 
+        'name' => 'cloudflare-stream',
+
         /**
          * The secret used to sign the webhook requests.
          *
          * @see https://developers.cloudflare.com/stream/manage-video-library/using-webhooks/#verify-webhook-authenticity
          */
         'signing_secret' => env('CLOUDFLARE_STREAM_WEBHOOK_SIGNING_SECRET', null),
-
-        /**
-         * The name of the header that contains the signature.
-         */
         'signature_header_name' => env('CLOUDFLARE_STREAM_WEBHOOK_SIGNATURE_HEADER_NAME', 'Webhook-Signature'),
+        'signature_validator' => \Szhorvath\LaravelCloudflareStream\Webhook\StreamSignatureValidator::class,
+        'webhook_profile' => \Spatie\WebhookClient\WebhookProfile\ProcessEverythingWebhookProfile::class,
+        'webhook_response' => \Spatie\WebhookClient\WebhookResponse\DefaultRespondsTo::class,
+        'webhook_model' => \Spatie\WebhookClient\Models\WebhookCall::class,
+        'store_headers' => '*', // Store all headers
+        'process_webhook_job' => \Szhorvath\LaravelCloudflareStream\Jobs\ProcessCloudflareStreamJob::class,
     ],
 ];
