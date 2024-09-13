@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Spatie\WebhookClient\Exceptions\InvalidWebhookSignature;
+
 use function Pest\Laravel\postJson;
 
 beforeEach(function () {
@@ -39,6 +41,25 @@ it('should fail signature check when request body is altered', function () {
         data: ['body' => 'tempered with'],
         headers: $this->headers
     )
-        ->assertStatus(500)
+        ->assertServerError()
         ->assertExactJson(['message' => 'Server Error']);
 });
+
+it('should fail signature check when signature is altered', function () {
+    $this->headers['webhook-signature'] = 'time=1723646181,sig1=7fd16f1875290867a1d1835a94ec44bdae91c5a19627b4eb3001f407593b3af0';
+
+    $this->withoutExceptionHandling();
+
+    postJson(
+        uri: '/webhooks/cloudflare-stream',
+        data: json_decode(
+            json: fixture('webhook/stopped'),
+            associative: true,
+            flags: JSON_THROW_ON_ERROR,
+        ),
+        headers: $this->headers
+    )
+        ->assertServerError()
+        ->assertExactJson(['message' => 'Server Error']);
+})
+    ->throws(InvalidWebhookSignature::class, 'The signature is invalid.');

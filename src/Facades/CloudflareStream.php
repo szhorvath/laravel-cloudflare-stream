@@ -9,10 +9,17 @@ use Illuminate\Support\Facades\Facade;
  *
  * @method static \Szhorvath\CloudflareStream\Resources\Token\TokenResource token()
  */
-class CfStream extends Facade
+class CloudflareStream extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return 'cf-stream';
+        return 'cloudflare-stream';
+    }
+
+    public static function fake($callback = null)
+    {
+        return tap(static::getFacadeRoot(), function ($fake) use ($callback) {
+            static::swap($fake->fake($callback));
+        });
     }
 }

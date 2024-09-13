@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\WebhookClient\WebhookClientServiceProvider;
-use Szhorvath\LaravelCloudflareStream\LaravelCloudflareStreamServiceProvider;
+use Szhorvath\LaravelCloudflareStream\CloudflareStreamServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -23,7 +23,7 @@ class TestCase extends Orchestra
     {
         return [
             WebhookClientServiceProvider::class,
-            LaravelCloudflareStreamServiceProvider::class,
+            CloudflareStreamServiceProvider::class,
         ];
     }
 
