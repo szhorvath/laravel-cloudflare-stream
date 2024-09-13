@@ -30,7 +30,7 @@ jobs:
             collision: 8.*
             carbon: ^2.63
           - laravel: 10.*
-            testbench: 8.*
+            testbench: 8.26.*
             pest: 2.*
             collision: 7.*
             carbon: ^2.63
