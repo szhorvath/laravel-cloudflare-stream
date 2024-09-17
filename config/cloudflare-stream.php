@@ -11,7 +11,7 @@ return [
     | @see https://dash.cloudflare.com/profile/api-tokens
     |
     */
-    'api_token' => env('CLOUDFLARE_STREAM_API_TOKEN', null),
+    'api_token' => env('CLOUDFLARE_STREAM_API_TOKEN', ''),
 
     /*
     |--------------------------------------------------------------------------
@@ -21,7 +21,7 @@ return [
     | The account ID used to authenticate with the Cloudflare Stream API.
     |
     */
-    'account_id' => env('CLOUDFLARE_STREAM_ACCOUNT_ID', null),
+    'account_id' => env('CLOUDFLARE_STREAM_ACCOUNT_ID', ''),
 
     /*
     |--------------------------------------------------------------------------
@@ -117,7 +117,7 @@ return [
          *
          * @see https://developers.cloudflare.com/stream/manage-video-library/using-webhooks/#verify-webhook-authenticity
          */
-        'signing_secret' => env('CLOUDFLARE_STREAM_WEBHOOK_SIGNING_SECRET', null),
+        'signing_secret' => env('CLOUDFLARE_STREAM_WEBHOOK_SIGNING_SECRET', ''),
 
         /**
          * The name of the header containing the signature.

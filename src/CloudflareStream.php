@@ -20,6 +20,16 @@ class CloudflareStream
         return $this->sdk;
     }
 
+    public function accountId(): string
+    {
+        return $this->accountId;
+    }
+
+    public function signer(): StreamSigner
+    {
+        return $this->signer;
+    }
+
     public function client(): ClientInterface
     {
         return $this->sdk->client();
