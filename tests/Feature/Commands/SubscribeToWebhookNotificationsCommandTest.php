@@ -46,7 +46,7 @@ it('should notify when subscribing not successful', function () {
         ->assertFailed();
 });
 
-it('should be able to change url with command parameter', function(){
+it('should be able to change url with command parameter', function () {
     CloudflareStream::fake([
         [
             'result' => [
