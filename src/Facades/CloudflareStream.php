@@ -5,6 +5,7 @@ namespace Szhorvath\LaravelCloudflareStream\Facades;
 use GuzzleHttp\Psr7\Response as Psr7Response;
 use Http\Mock\Client as MockClient;
 use Illuminate\Support\Facades\Facade;
+use Psr\Http\Message\ResponseInterface;
 use Szhorvath\CloudflareStream\ClientBuilder;
 use Szhorvath\CloudflareStream\Concerns\StreamSigner;
 use Szhorvath\CloudflareStream\StreamSdk;
@@ -13,7 +14,8 @@ use Szhorvath\LaravelCloudflareStream\CloudflareStream as CfStream;
 /**
  * @see \Szhorvath\CloudflareStream\StreamSdk
  *
- * @method static \Szhorvath\CloudflareStream\DataObjects\ApiResponse verifyToken()
+ * @method static \Szhorvath\CloudflareStream\DataObjects\ApiResponse<\Szhorvath\CloudflareStream\DataObjects\Token\Verify> verifyToken()
+ * @method static \Szhorvath\CloudflareStream\DataObjects\ApiResponse<\Szhorvath\CloudflareStream\DataObjects\Webhook\Webhook> subscribeToWebhooks(?string $url = null)
  */
 class CloudflareStream extends Facade
 {
@@ -24,6 +26,8 @@ class CloudflareStream extends Facade
 
     /**
      * Register a stub callable that will intercept requests and be able to return stub responses.
+     *
+     * @param  \Closure|array<int, mixed>|null  $callback
      */
     public static function fake(\Closure|array|null $callback = null): void
     {
@@ -47,17 +51,25 @@ class CloudflareStream extends Facade
             signer: new StreamSigner(
                 pem: 'fake-pem',
                 keyId: 'fake-key-id'
-            ),
-            accountId: 'fake-account-id'
+            )
         );
 
-        return static::swap($fake);
+        static::swap($fake);
     }
 
-    public static function response($body = null, $status = 200, $headers = [])
+    /**
+     * Register a response sequence for the given URL pattern.
+     *
+     * @param  array<string, mixed>  $headers
+     * @param  array<string, mixed>|string|null  $body
+     */
+    public static function response(array|string|null $body = null, int $status = 200, array $headers = []): ResponseInterface
     {
         if (is_array($body)) {
-            $body = json_encode($body);
+            $body = json_encode(
+                value: $body,
+                flags: JSON_THROW_ON_ERROR
+            );
 
             $headers['Content-Type'] = 'application/json';
         }

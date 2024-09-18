@@ -5,24 +5,25 @@ namespace Szhorvath\LaravelCloudflareStream;
 use Psr\Http\Client\ClientInterface;
 use Szhorvath\CloudflareStream\Concerns\StreamSigner;
 use Szhorvath\CloudflareStream\DataObjects\ApiResponse;
+use Szhorvath\CloudflareStream\DataObjects\Token\Verify;
+use Szhorvath\CloudflareStream\DataObjects\Webhook\Webhook;
 use Szhorvath\CloudflareStream\StreamSdk;
 
 class CloudflareStream
 {
+    /**
+     * Create a new CloudflareStream instance.
+     *
+     * @return void
+     */
     public function __construct(
         protected StreamSdk $sdk,
         protected StreamSigner $signer,
-        protected string $accountId,
     ) {}
 
     public function sdk(): StreamSdk
     {
         return $this->sdk;
-    }
-
-    public function accountId(): string
-    {
-        return $this->accountId;
     }
 
     public function signer(): StreamSigner
@@ -35,6 +36,11 @@ class CloudflareStream
         return $this->sdk->client();
     }
 
+    /**
+     * Verify the Cloudflare Stream token.
+     *
+     * @return ApiResponse<Verify>
+     */
     public function verifyToken(): ApiResponse
     {
         return $this->sdk->token()->verify();
@@ -43,5 +49,18 @@ class CloudflareStream
     public function createToken(string $videoId): string
     {
         return $this->signer->tokenFor($videoId);
+    }
+
+    /**
+     * Subscribe to Cloudflare Stream webhooks.
+     *
+     * @return ApiResponse<Webhook>
+     */
+    public function subscribeToWebhooks(?string $url = null): ApiResponse
+    {
+        return $this->sdk->webhook()->create(
+            accountId: config('cloudflare-stream.account_id'),
+            data: ['notificationUrl' => $url ?: url(config('cloudflare-stream.webhook.url'))]
+        );
     }
 }

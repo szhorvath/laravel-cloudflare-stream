@@ -10,6 +10,7 @@ use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Szhorvath\CloudflareStream\Concerns\StreamSigner;
 use Szhorvath\CloudflareStream\StreamSdk;
+use Szhorvath\LaravelCloudflareStream\Commands\SubscribeToWebhookNotificationsCommand;
 use Szhorvath\LaravelCloudflareStream\Commands\VerifyCloudflareStreamTokenCommand;
 
 class CloudflareStreamServiceProvider extends PackageServiceProvider
@@ -26,7 +27,8 @@ class CloudflareStreamServiceProvider extends PackageServiceProvider
             ->hasConfigFile(['cloudflare-stream'])
             ->hasRoute('stream')
             ->hasMigration('create_webhook_calls_table')
-            ->hasCommand(VerifyCloudflareStreamTokenCommand::class);
+            ->hasCommand(VerifyCloudflareStreamTokenCommand::class)
+            ->hasCommand(SubscribeToWebhookNotificationsCommand::class);
     }
 
     public function packageRegistered(): void
@@ -49,7 +51,6 @@ class CloudflareStreamServiceProvider extends PackageServiceProvider
             return new CloudflareStream(
                 sdk: $app->make(StreamSdk::class),
                 signer: $app->make(StreamSigner::class),
-                accountId: config('cloudflare-stream.account_id'),
             );
         });
 

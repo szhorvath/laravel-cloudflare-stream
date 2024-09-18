@@ -103,7 +103,7 @@ return [
         'name' => 'cloudflare-stream',
 
         /**
-         * The URL used to receive Cloudflare Stream webhooks.
+         * The Laravel route URL used to receive Cloudflare Stream webhooks.
          */
         'url' => 'webhooks/cloudflare-stream',
 
