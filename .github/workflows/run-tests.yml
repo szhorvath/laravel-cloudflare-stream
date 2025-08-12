@@ -59,7 +59,7 @@ jobs:
           mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} --user=user --password=secret --execute="SHOW DATABASES;"
 
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
